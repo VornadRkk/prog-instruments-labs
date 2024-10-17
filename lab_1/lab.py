@@ -19,8 +19,8 @@ from tkinter import ttk
 """
 
 
-def scrsize(x: Tk) -> None:
-    """Centers the window on the screen and sets its size."""
+def scrsidb_connectione(x: Tk) -> None:
+    """Centers the window on the screen and sets its sidb_connectione."""
     width = x.winfo_screenwidth()
     height = x.winfo_screenheight()
 
@@ -62,7 +62,7 @@ def button_style1() -> dict:
 
 
 def button_style2() -> dict:
-    """Returns styling for medium-sized buttons with different colors."""
+    """Returns styling for medium-sidb_connectioned buttons with different colors."""
     return {
         "font": ("Arial", 10, "bold"),
         "bd": 2,
@@ -106,7 +106,7 @@ def reg() -> None:
         main_screen.withdraw()
 
     screen.title("REGISTER")
-    scrsize(screen)
+    scrsidb_connectione(screen)
     screen.configure(bg="black")
 
     global usn_verify
@@ -216,26 +216,26 @@ def signed() -> None:
         error_label.pack(pady=2)
         screen.after(2500, hide_error_label)
     else:
-        z = mysql.connector.connect(
+        db_connection = mysql.connector.connect(
             host="localhost", user="root", passwd="", database="logindetails"
         )
-        mycursor = z.cursor()
+        mycursor = db_connection.cursor()
 
         sql = "INSERT INTO userdatas(username,password) VALUES(%s,%s)"
         val = (usn_verify.get(), pwd_info)
 
         try:
             mycursor.execute(sql, val)
-            z.commit()
+            db_connection.commit()
             Label(screen, text="Signed Up Successfully", bg="black", fg="Yellow").pack()
             print("\nSigned Up Successfully")
         except:
-            z.rollback()
+            db_connection.rollback()
         finally:
             print("\nWelcome to Film Buff\n")
             selectcity()
             mycursor.close()
-            z.close()
+            db_connection.close()
             if "screen" in globals():
                 screen.withdraw()
 
@@ -249,7 +249,7 @@ def login() -> None:
         main_screen.withdraw()
 
     login_screen.title("Login")
-    scrsize(login_screen)
+    scrsidb_connectione(login_screen)
     login_screen.configure(bg="black")
 
     global usn_verify
@@ -364,10 +364,10 @@ def submit() -> None:
         error_label1.pack(pady=2)
         login_screen.after(2500, hide_error_label1)
     else:
-        z1 = mysql.connector.connect(
+        db_connection1 = mysql.connector.connect(
             host="localhost", user="root", passwd="", database="logindetails"
         )
-        mycursor = z1.cursor()
+        mycursor = db_connection1.cursor()
         mycursor.execute(
             "SELECT * FROM userdatas WHERE username=%s AND password=%s",
             (usn_verify.get(), pwd_verify.get()),
@@ -380,7 +380,7 @@ def submit() -> None:
             print("\nLogin Successfully")
             print("\nWelcome to Film Buff\n")
             mycursor.close()
-            z1.close()
+            db_connection1.close()
             if "login_screen" in globals():
                 login_screen.withdraw()
         else:
@@ -399,7 +399,7 @@ def selectcity() -> None:
         login_screen.withdraw()
 
     city.title("Select City & Movie")
-    scrsize(city)
+    scrsidb_connectione(city)
     city.configure(bg="black")
 
     label_font, label_width = labeltext()
@@ -455,7 +455,7 @@ def selectcity() -> None:
         width=width_config,
         height=height_config,
         bd=0,
-        bg="azure",
+        bg="adb_connectionure",
         fg="black",
         activebackground="yellow",
         activeforeground="black",
@@ -654,7 +654,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
     s95 = IntVar()
     s96 = IntVar()
 
-    scrsize(seat)
+    scrsidb_connectione(seat)
 
     seat.title("Seat Selection")
     seat.configure(bg="black")
@@ -2333,11 +2333,11 @@ def updating_values(seat: Tk) -> None:
     Parameters:
     seat (Tk): The parent window for the booking.
     """
-    z = mysql.connector.connect(
+    db_connection = mysql.connector.connect(
         host="localhost", user="root", passwd="", database="logindetails"
     )
 
-    mycursor = z.cursor()
+    mycursor = db_connection.cursor()
     sql1 = "UPDATE userdatas SET city='{}', Moviename='{}', seatname='{}', Amount='{}' WHERE username='{}'"
     val1 = sql1.format(lbl_text.get(), movie_name, seat_name, Amount, usn_verify.get())
     print(val1)
@@ -2348,13 +2348,13 @@ def updating_values(seat: Tk) -> None:
         print("Total Cost: " + str(Amount))
         print(movie_name)
         mycursor.execute(val1)
-        z.commit()
+        db_connection.commit()
         booking_successfully(seat)
     except:
-        z.rollback()
+        db_connection.rollback()
     finally:
         mycursor.close()
-        z.close()
+        db_connection.close()
 
 
 def booking_successfully(seat: Tk) -> None:
@@ -2371,7 +2371,7 @@ def booking_successfully(seat: Tk) -> None:
         seat.withdraw()
 
     booked.title("Tickets")
-    scrsize(booked)
+    scrsidb_connectione(booked)
     booked.configure(bg="black")
 
     label_font, label_width = labeltext()
@@ -2505,11 +2505,11 @@ def print_ans(lbl_text, menubutton, label, city) -> None:
 
 
 def main_account_screen() -> None:
-    """Initialize and display the main account screen."""
+    """Initialidb_connectione and display the main account screen."""
     global main_screen
     main_screen = Tk()
 
-    scrsize(main_screen)
+    scrsidb_connectione(main_screen)
     main_screen.configure(bg="black")
 
     label_font, label_width = labeltext()

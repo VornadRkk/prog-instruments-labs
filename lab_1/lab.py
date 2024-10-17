@@ -1,6 +1,8 @@
 from tkinter import*
+
 import mysql.connector
 import tkinter.messagebox as tm
+
 from tkinter import ttk
 #First Create the Database after run this program#
 '''Create Database name as logindetails'''
@@ -15,57 +17,62 @@ from tkinter import ttk
 6. Amount
 '''
 
-##Screen Size##
-def scrsize(x):
-    
+def scrsize(x: Tk) -> None:
+    """Centers the window on the screen and sets its size."""
     width = x.winfo_screenwidth()
     height = x.winfo_screenheight()
 
     x_pos = (width - 600) // 2  
     y_pos = (height - 400) // 2 
 
-    x.geometry("550x350+{}+{}".format(x_pos, y_pos))
+    x.geometry(f"550x350+{x_pos}+{y_pos}")
 
-##Button Styles##
-def button_style():
-    return{'font': ('Arial', 12, 'bold'), 'bd': 3, 'width': 9, 'height': 1,
-                    'activebackground': 'yellow', 'activeforeground': 'black',
-                    'fg': 'white', 'bg': 'orange', 'relief': 'groove',}
+## Button Styles ##
+def button_style() -> dict:
+    """Returns styling for standard buttons."""
+    return {'font': ('Arial', 12, 'bold'), 'bd': 3, 'width': 9, 'height': 1,
+            'activebackground': 'yellow', 'activeforeground': 'black',
+            'fg': 'white', 'bg': 'orange', 'relief': 'groove'}
 
-def button_style1():
-    return{'font': ('Arial', 12, 'bold'), 'bd': 1, 'width': 15, 'height': 10,
-                    'activebackground': 'yellow', 'activeforeground': 'black',
-                    'fg': 'white', 'bg': 'orange', 'relief': 'groove',}
+def button_style1() -> dict:
+    """Returns styling for larger buttons."""
+    return {'font': ('Arial', 12, 'bold'), 'bd': 1, 'width': 15, 'height': 10,
+            'activebackground': 'yellow', 'activeforeground': 'black',
+            'fg': 'white', 'bg': 'orange', 'relief': 'groove'}
 
-def button_style2():
-    return{'font': ('Arial', 10, 'bold'), 'bd': 2, 'width': 14, 'height': 1,
-                    'activebackground': 'yellow', 'activeforeground': 'black',
-                    'fg': 'black', 'bg': 'darkviolet', 'relief': 'groove',}
+def button_style2() -> dict:
+    """Returns styling for medium-sized buttons with different colors."""
+    return {'font': ('Arial', 10, 'bold'), 'bd': 2, 'width': 14, 'height': 1,
+            'activebackground': 'yellow', 'activeforeground': 'black',
+            'fg': 'black', 'bg': 'darkviolet', 'relief': 'groove'}
 
-##Label Styles##
-def labeltext():
-     label_font=('Gill Sans', 20, 'bold')
-     label_width=main_screen.winfo_screenwidth()
+## Label Styles ##
+def labeltext() -> tuple:
+    """Returns font and screen width for labels."""
+    label_font = ('Gill Sans', 20, 'bold')
+    label_width = main_screen.winfo_screenwidth()
 
-     return label_font,label_width
+    return label_font, label_width
 
-#Hide Error Label in SignUp##
-def hide_error_label():
+## Hide Error Label in SignUp ##
+def hide_error_label() -> None:
+    """Hides the error label in the SignUp window."""
     error_label.pack_forget()
 
-#Hide Error Label in Login##
-def hide_error_label1():
+## Hide Error Label in Login ##
+def hide_error_label1() -> None:
+    """Hides the error label in the Login window."""
     error_label1.pack_forget()
-    
-##Registration or SignUp Setup##    
-def reg():
+
+## Registration or SignUp Setup ##
+def reg() -> None:
+    """Sets up the registration screen with input fields and buttons."""
     global screen
-    screen=Toplevel(main_screen)
+    screen = Toplevel(main_screen)
     if 'screen' in globals():
         main_screen.withdraw()
     
     screen.title("REGISTER")
-
     scrsize(screen)
     screen.configure(bg="black")
     
@@ -74,35 +81,35 @@ def reg():
     global show_password
     global entry_password
 
-    usn_verify=StringVar()
-    password=StringVar()
+    usn_verify = StringVar()
+    password = StringVar()
     show_password = BooleanVar(value=False)
 
-    label_font,label_width=labeltext()
+    label_font, label_width = labeltext()
 
-    l1=Label(screen,text="Enter Your SignUp Details",bg="royalblue",fg="black",height='2',
-          font=label_font,width=label_width)
+    l1 = Label(screen, text="Enter Your SignUp Details", bg="royalblue", fg="black", height='2',
+               font=label_font, width=label_width)
     l1.pack(pady=10)
 
-    Label(screen,text='Enter Your Username',font=('Gill Sans', 14, 'bold'),
-          bg="black",fg="white",height='2',width='30').pack()
+    Label(screen, text='Enter Your Username', font=('Gill Sans', 14, 'bold'),
+          bg="black", fg="white", height='2', width='30').pack()
 
-    Entry(screen,textvariable=usn_verify,width='20',font=('Gill Sans', 14)).pack()
+    Entry(screen, textvariable=usn_verify, width='20', font=('Gill Sans', 14)).pack()
     
-    Label(screen,text='Enter Your Password',font=('Gill Sans', 14, 'bold'),
-          bg="black",fg="white",height='2',width='30').pack()
+    Label(screen, text='Enter Your Password', font=('Gill Sans', 14, 'bold'),
+          bg="black", fg="white", height='2', width='30').pack()
     
-    entry_password = Entry(screen, textvariable=password,show='*', width='20', font=('Gill Sans', 14))
+    entry_password = Entry(screen, textvariable=password, show='*', width='20', font=('Gill Sans', 14))
     entry_password.pack(pady=2)
 
-    toggle_button = Checkbutton(screen, text='Show Password', variable=show_password,
-                                command=toggle_password)
+    toggle_button = Checkbutton(screen, text='Show Password', variable=show_password, command=toggle_password)
     toggle_button.pack(pady=10)
     
-    Button(screen,text='Sign Up',**button_style(),command=signed).pack()
+    Button(screen, text='Sign Up', **button_style(), command=signed).pack()
 
-    reopen_button=Button(screen,text="Back",font=('Arial', 9, 'bold'), width=8, height=1, bd=1,bg='black', fg='white',
-               activebackground='yellow', activeforeground='black',command=back1)
+    reopen_button = Button(screen, text="Back", font=('Arial', 9, 'bold'), width=8, height=1, bd=1,
+                           bg='black', fg='white', activebackground='yellow', activeforeground='black',
+                           command=back1)
 
     reopen_button.place(relx=1.0, anchor='ne', x=-10, y=30)
     

@@ -1,6 +1,7 @@
-from tkinter import *
+from tkinter import
 
 import mysql.connector
+
 import tkinter.messagebox as tm
 
 from tkinter import ttk
@@ -551,11 +552,16 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         city.withdraw()
     movie_name = movie_name_fetch
 
-    global s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22
-    global s23, s24, s25, s26, s27, s28, s29, s30, s31, s32, s33, s34, s35, s36, s37, s38, s39, s40, s41, s42
-    global s43, s44, s45, s46, s47, s48, s49, s50, s51, s52, s53, s54, s55, s56, s57, s58, s59, s60, s61, s62
-    global s63, s64, s65, s66, s67, s68, s69, s70, s71, s72, s73, s74, s75, s76, s77, s78, s79, s80, s81, s82
-    global s83, s84, s85, s86, s87, s88, s89, s90, s91, s92, s93, s94, s95, s96
+    global s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12
+    global s13, s14, s15, s16,s17, s18, s19, s20, s21, s22
+    global s23, s24, s25, s26, s27, s28, s29, s30, s31, s32
+    global s34, s35, s36, s37, s38, s39, s40, s41, s42, s33
+    global s43, s44, s45, s46, s47, s48, s49, s50, s51, s52
+    global s53, s54, s55, s56, s57, s58, s59, s60, s61, s62
+    global s63, s64, s65, s66, s67, s68, s69, s70, s71, s72
+    global s73, s74, s75, s76, s77, s78, s79, s80, s81, s82
+    global s83, s84, s85, s86, s87, s88, s89, s90
+    global s91, s92, s93, s94, s95, s96
 
     s1 = IntVar()
     s2 = IntVar()
@@ -1875,41 +1881,62 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
 
     font_new = ("Gill Sans", 12, "bold")
 
-    Label(seat, text="A", bg="black", fg="darkviolet", font=font_new).place(x=10, y=70)
-    Label(seat, text="B", bg="black", fg="darkviolet", font=font_new).place(x=10, y=100)
-    Label(seat, text="C", bg="black", fg="darkviolet", font=font_new).place(x=10, y=130)
-    Label(seat, text="D", bg="black", fg="darkviolet", font=font_new).place(x=10, y=160)
-    Label(seat, text="E", bg="black", fg="darkviolet", font=font_new).place(x=10, y=190)
-    Label(seat, text="F", bg="black", fg="darkviolet", font=font_new).place(x=10, y=220)
+    Label(seat, text="A", bg="black", fg="darkviolet",
+     font=font_new).place(x=10, y=70)
+    Label(seat, text="B", bg="black", fg="darkviolet",
+     font=font_new).place(x=10, y=100)
+    Label(seat, text="C", bg="black", fg="darkviolet",
+     font=font_new).place(x=10, y=130)
+    Label(seat, text="D", bg="black", fg="darkviolet",
+     font=font_new).place(x=10, y=160)
+    Label(seat, text="E", bg="black", fg="darkviolet",
+     font=font_new).place(x=10, y=190)
+    Label(seat, text="F", bg="black", fg="darkviolet",
+     font=font_new).place(x=10, y=220)
 
-    Label(seat, text="1", bg="black", fg="darkviolet", font=font_new).place(x=52, y=40)
-    Label(seat, text="2", bg="black", fg="darkviolet", font=font_new).place(x=82, y=40)
+    Label(seat, text="1", bg="black", fg="darkviolet",
+     font=font_new).place(x=52, y=40)
+    Label(seat, text="2", bg="black", fg="darkviolet",
+     font=font_new).place(x=82, y=40)
     Label(seat, text="3", bg="black", fg="darkviolet", font=font_new).place(x=112, y=40)
-    Label(seat, text="4", bg="black", fg="darkviolet", font=font_new).place(x=142, y=40)
-    Label(seat, text="5", bg="black", fg="darkviolet", font=font_new).place(x=172, y=40)
-    Label(seat, text="6", bg="black", fg="darkviolet", font=font_new).place(x=202, y=40)
-    Label(seat, text="7", bg="black", fg="darkviolet", font=font_new).place(x=232, y=40)
-    Label(seat, text="8", bg="black", fg="darkviolet", font=font_new).place(x=262, y=40)
-    Label(seat, text="9", bg="black", fg="darkviolet", font=font_new).place(x=292, y=40)
-    Label(seat, text="10", bg="black", fg="darkviolet", font=font_new).place(
+    Label(seat, text="4", bg="black", fg="darkviolet",
+     font=font_new).place(x=142, y=40)
+    Label(seat, text="5", bg="black", fg="darkviolet",
+     font=font_new).place(x=172, y=40)
+    Label(seat, text="6", bg="black", fg="darkviolet",
+     font=font_new).place(x=202, y=40)
+    Label(seat, text="7", bg="black", fg="darkviolet",
+     font=font_new).place(x=232, y=40)
+    Label(seat, text="8", bg="black", fg="darkviolet",
+     font=font_new).place(x=262, y=40)
+    Label(seat, text="9", bg="black", fg="darkviolet",
+     font=font_new).place(x=292, y=40)
+    Label(seat, text="10", bg="black", fg="darkviolet",
+     font=font_new).place(
         x=320, y=40
     )
-    Label(seat, text="11", bg="black", fg="darkviolet", font=font_new).place(
+    Label(seat, text="11", bg="black", fg="darkviolet",
+     font=font_new).place(
         x=350, y=40
     )
-    Label(seat, text="12", bg="black", fg="darkviolet", font=font_new).place(
+    Label(seat, text="12", bg="black", fg="darkviolet",
+     font=font_new).place(
         x=380, y=40
     )
-    Label(seat, text="13", bg="black", fg="darkviolet", font=font_new).place(
+    Label(seat, text="13", bg="black", fg="darkviolet",
+     font=font_new).place(
         x=410, y=40
     )
-    Label(seat, text="14", bg="black", fg="darkviolet", font=font_new).place(
+    Label(seat, text="14", bg="black", fg="darkviolet",
+     font=font_new).place(
         x=440, y=40
     )
-    Label(seat, text="15", bg="black", fg="darkviolet", font=font_new).place(
+    Label(seat, text="15", bg="black", fg="darkviolet",
+     font=font_new).place(
         x=470, y=40
     )
-    Label(seat, text="16", bg="black", fg="darkviolet", font=font_new).place(
+    Label(seat, text="16", bg="black", fg="darkviolet",
+     font=font_new).place(
         x=500, y=40
     )
 
@@ -2338,8 +2365,10 @@ def updating_values(seat: Tk) -> None:
     )
 
     mycursor = db_connection.cursor()
-    sql1 = "UPDATE userdatas SET city='{}', Moviename='{}', seatname='{}', Amount='{}' WHERE username='{}'"
-    val1 = sql1.format(lbl_text.get(), movie_name, seat_name, Amount, usn_verify.get())
+    sql1 = "UPDATE userdatas SET city='{}', Moviename='{}', seatname='{}'",
+    " Amount='{}' WHERE username='{}'"
+    val1 = sql1.format(lbl_text.get(), movie_name, seat_name,
+     Amount, usn_verify.get())
     print(val1)
 
     try:

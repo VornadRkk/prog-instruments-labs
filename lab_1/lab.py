@@ -1,4 +1,4 @@
-from tkinter import
+import tkinter 
 
 import mysql.connector
 
@@ -102,7 +102,7 @@ def hide_error_label1() -> None:
 def reg() -> None:
     """Sets up the registration screen with input fields and buttons."""
     global screen
-    screen = Toplevel(main_screen)
+    screen = tkinter.Toplevel(main_screen)
     if "screen" in globals():
         main_screen.withdraw()
 
@@ -115,13 +115,13 @@ def reg() -> None:
     global show_password
     global entry_password
 
-    usn_verify = StringVar()
-    password = StringVar()
+    usn_verify = tkinter.StringVar()
+    password = tkinter.StringVar()
     show_password = BooleanVar(value=False)
 
     label_font, label_width = labeltext()
 
-    l1 = Label(
+    l1 = tkinter.Label(
         screen,
         text="Enter Your SignUp Details",
         bg="royalblue",
@@ -132,7 +132,7 @@ def reg() -> None:
     )
     l1.pack(pady=10)
 
-    Label(
+    tkinter.Label(
         screen,
         text="Enter Your Username",
         font=("Gill Sans", 14, "bold"),
@@ -142,9 +142,9 @@ def reg() -> None:
         width="30",
     ).pack()
 
-    Entry(screen, textvariable=usn_verify, width="20", font=("Gill Sans", 14)).pack()
+    tkinter.Entry(screen, textvariable=usn_verify, width="20", font=("Gill Sans", 14)).pack()
 
-    Label(
+    tkinter.Label(
         screen,
         text="Enter Your Password",
         font=("Gill Sans", 14, "bold"),
@@ -154,7 +154,7 @@ def reg() -> None:
         width="30",
     ).pack()
 
-    entry_password = Entry(
+    entry_password = tkinter.Entry(
         screen, textvariable=password, show="*", width="20", font=("Gill Sans", 14)
     )
     entry_password.pack(pady=2)
@@ -164,9 +164,9 @@ def reg() -> None:
     )
     toggle_button.pack(pady=10)
 
-    Button(screen, text="Sign Up", **button_style(), command=signed).pack()
+    tkinter.Button(screen, text="Sign Up", **button_style(), command=signed).pack()
 
-    reopen_button = Button(
+    reopen_button = tkinter.Button(
         screen,
         text="Back",
         font=("Arial", 9, "bold"),
@@ -208,7 +208,7 @@ def signed() -> None:
 
     if len(usn_verify.get()) < 6 or len(pwd_info) < 6:
         global error_label
-        error_label = Label(
+        error_label = tkinter.Label(
             screen,
             text="Username and Password must be at least 6 characters long",
             bg="black",
@@ -228,7 +228,7 @@ def signed() -> None:
         try:
             mycursor.execute(sql, val)
             db_connection.commit()
-            Label(screen, text="Signed Up Successfully", bg="black", fg="Yellow").pack()
+            tkinter.Label(screen, text="Signed Up Successfully", bg="black", fg="Yellow").pack()
             print("\nSigned Up Successfully")
         except:
             db_connection.rollback()
@@ -245,7 +245,7 @@ def signed() -> None:
 def login() -> None:
     """Creates the login window with user input fields."""
     global login_screen
-    login_screen = Toplevel(main_screen)
+    login_screen = tkinter.Toplevel(main_screen)
     if "login_screen" in globals():
         main_screen.withdraw()
 
@@ -258,13 +258,13 @@ def login() -> None:
     global show_password1
     global entry_password1
 
-    usn_verify = StringVar()
-    pwd_verify = StringVar()
-    show_password1 = BooleanVar(value=False)
+    usn_verify = tkinter.StringVar()
+    pwd_verify = tkinter.StringVar()
+    show_password1 = tkinter.BooleanVar(value=False)
 
     label_font, label_width = labeltext()
 
-    l2 = Label(
+    l2 = tkinter.Label(
         login_screen,
         text="Enter Your Login Details",
         bg="darkviolet",
@@ -275,7 +275,7 @@ def login() -> None:
     )
     l2.pack(pady=10)
 
-    Label(
+    tkinter.Label(
         login_screen,
         text="Username",
         font=("Gill Sans", 14, "bold"),
@@ -285,11 +285,11 @@ def login() -> None:
         width="30",
     ).pack()
 
-    Entry(
+    tkinter.Entry(
         login_screen, textvariable=usn_verify, width="20", font=("Gill Sans", 14)
     ).pack()
 
-    Label(
+    tkinter.Label(
         login_screen,
         text="Password",
         font=("Gill Sans", 14, "bold"),
@@ -299,7 +299,7 @@ def login() -> None:
         width="30",
     ).pack()
 
-    entry_password1 = Entry(
+    entry_password1 = tkinter.Entry(
         login_screen,
         textvariable=pwd_verify,
         show="*",
@@ -308,7 +308,7 @@ def login() -> None:
     )
     entry_password1.pack(pady=2)
 
-    toggle_button1 = Checkbutton(
+    toggle_button1 = tkinter.Checkbutton(
         login_screen,
         text="Show Password",
         variable=show_password1,
@@ -317,9 +317,9 @@ def login() -> None:
     )
     toggle_button1.pack(pady=10)
 
-    Button(login_screen, text="Sign In", **button_style(), command=submit).pack()
+    tkinter.Button(login_screen, text="Sign In", **button_style(), command=submit).pack()
 
-    reopen_button1 = Button(
+    reopen_button1 = tkinter.Button(
         login_screen,
         text="Back",
         font=("Arial", 9, "bold"),
@@ -356,7 +356,7 @@ def submit() -> None:
     """Verifies login credentials and logs the user in."""
     if len(usn_verify.get()) < 6 or len(pwd_verify.get()) < 6:
         global error_label1
-        error_label1 = Label(
+        error_label1 = tkinter.Label(
             login_screen,
             text="Username and Password must be at least 6 characters long",
             bg="black",
@@ -374,7 +374,7 @@ def submit() -> None:
             (usn_verify.get(), pwd_verify.get()),
         )
         if mycursor.fetchone():
-            Label(
+            tkinter.Label(
                 login_screen, text="Login Successfully", bg="black", fg="Yellow"
             ).pack()
             selectcity()
@@ -392,7 +392,7 @@ def submit() -> None:
 def selectcity() -> None:
     """Opens a window to select a city after successful login."""
     global city, lbl_text
-    city = Toplevel(main_screen)
+    city = tkinter.Toplevel(main_screen)
 
     if "screen" in globals():
         screen.withdraw()
@@ -405,10 +405,10 @@ def selectcity() -> None:
 
     label_font, label_width = labeltext()
 
-    lbl_text = StringVar()
+    lbl_text = tkinter.StringVar()
     lbl_text.set("Select Your City")
 
-    label = Label(
+    label = tkinter.Label(
         city,
         textvariable=lbl_text,
         height=1,
@@ -442,14 +442,14 @@ def selectcity() -> None:
     ]
 
     global sc
-    sc = StringVar()
+    sc = tkinter.StringVar()
     sc.set("Cities")
 
     font_config = ("bold", 14)
     width_config = 15
     height_config = 1
 
-    menubutton = Menubutton(
+    menubutton = tkinter.Menubutton(
         city,
         textvariable=sc,
         font=font_config,
@@ -462,7 +462,7 @@ def selectcity() -> None:
         activeforeground="black",
     )
 
-    menubutton.menu = Menu(
+    menubutton.menu = tkinter.Menu(
         menubutton,
         tearoff=0,
         bd=0,
@@ -486,7 +486,7 @@ def selectcity() -> None:
 
     movies_list(city)
 
-    reopen_button2 = Button(
+    reopen_button2 = tkinter.Button(
         city,
         text="Sign Out",
         font=("Arial", 9, "bold"),
@@ -504,7 +504,7 @@ def selectcity() -> None:
 
 
 ## Logout and return to main screen ##
-def signout(city: Toplevel) -> None:
+def signout(city: tkinter.Toplevel) -> None:
     """Logs out and returns to the main screen."""
     main_screen.deiconify()
     if "screen" in globals():
@@ -514,18 +514,18 @@ def signout(city: Toplevel) -> None:
     city.withdraw()
 
 
-def movies_list(city: Toplevel) -> None:
+def movies_list(city: tkinter.Toplevel) -> None:
     """Displays a list of movie buttons for selection, which leads to seat selection."""
 
-    btn1 = Button(
+    btn1 = tkinter.Button(
         city,
         text="Movie 1",
         **button_style1(),
         command=lambda: seat_selection(city, "Movie 1"),
     )
-    btn1.pack(side=LEFT, padx=15, pady=10, anchor=CENTER)
+    btn1.pack(side=tkinter.LEFT, padx=15, pady=10, anchor=tkinter.CENTER)
 
-    btn2 = Button(
+    btn2 = tkinter.Button(
         city,
         text="Movie 2",
         **button_style1(),
@@ -539,15 +539,15 @@ def movies_list(city: Toplevel) -> None:
         **button_style1(),
         command=lambda: seat_selection(city, "Movie 3"),
     )
-    btn3.pack(side=LEFT, padx=15, pady=10, anchor=CENTER)
+    btn3.pack(side=tkinter.LEFT, padx=15, pady=10, anchor=tkinter.CENTER)
 
 
-def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
+def seat_selection(city: tkinter.Toplevel, movie_name_fetch: str) -> None:
     """
     Displays seat selection options for a selected movie.
     """
     global seat, movie_name
-    seat = Toplevel(city)
+    seat = tkinter.Toplevel(city)
     if "city" in globals():
         city.withdraw()
     movie_name = movie_name_fetch
@@ -563,102 +563,102 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
     global s83, s84, s85, s86, s87, s88, s89, s90
     global s91, s92, s93, s94, s95, s96
 
-    s1 = IntVar()
-    s2 = IntVar()
-    s3 = IntVar()
-    s4 = IntVar()
-    s5 = IntVar()
-    s6 = IntVar()
-    s7 = IntVar()
-    s8 = IntVar()
-    s9 = IntVar()
-    s10 = IntVar()
-    s11 = IntVar()
-    s12 = IntVar()
-    s13 = IntVar()
-    s14 = IntVar()
-    s15 = IntVar()
-    s16 = IntVar()
-    s17 = IntVar()
-    s18 = IntVar()
-    s19 = IntVar()
-    s20 = IntVar()
-    s21 = IntVar()
-    s22 = IntVar()
-    s23 = IntVar()
-    s24 = IntVar()
-    s25 = IntVar()
-    s26 = IntVar()
-    s27 = IntVar()
-    s28 = IntVar()
-    s29 = IntVar()
-    s30 = IntVar()
-    s31 = IntVar()
-    s32 = IntVar()
-    s33 = IntVar()
-    s34 = IntVar()
-    s35 = IntVar()
-    s36 = IntVar()
-    s37 = IntVar()
-    s38 = IntVar()
-    s39 = IntVar()
-    s40 = IntVar()
-    s41 = IntVar()
-    s42 = IntVar()
-    s43 = IntVar()
-    s44 = IntVar()
-    s45 = IntVar()
-    s46 = IntVar()
-    s47 = IntVar()
-    s48 = IntVar()
-    s49 = IntVar()
-    s50 = IntVar()
-    s51 = IntVar()
-    s52 = IntVar()
-    s53 = IntVar()
-    s54 = IntVar()
-    s55 = IntVar()
-    s56 = IntVar()
-    s57 = IntVar()
-    s58 = IntVar()
-    s59 = IntVar()
-    s60 = IntVar()
-    s61 = IntVar()
-    s62 = IntVar()
-    s63 = IntVar()
-    s64 = IntVar()
-    s65 = IntVar()
-    s66 = IntVar()
-    s67 = IntVar()
-    s68 = IntVar()
-    s69 = IntVar()
-    s70 = IntVar()
-    s71 = IntVar()
-    s72 = IntVar()
-    s73 = IntVar()
-    s74 = IntVar()
-    s75 = IntVar()
-    s76 = IntVar()
-    s77 = IntVar()
-    s78 = IntVar()
-    s79 = IntVar()
-    s80 = IntVar()
-    s81 = IntVar()
-    s82 = IntVar()
-    s83 = IntVar()
-    s84 = IntVar()
-    s85 = IntVar()
-    s86 = IntVar()
-    s87 = IntVar()
-    s88 = IntVar()
-    s89 = IntVar()
-    s90 = IntVar()
-    s91 = IntVar()
-    s92 = IntVar()
-    s93 = IntVar()
-    s94 = IntVar()
-    s95 = IntVar()
-    s96 = IntVar()
+    s1 = tkinter.IntVar()
+    s2 = tkinter.IntVar()
+    s3 = tkinter.IntVar()
+    s4 = tkinter.IntVar()
+    s5 = tkinter.IntVar()
+    s6 = tkinter.IntVar()
+    s7 = tkinter.IntVar()
+    s8 = tkinter.IntVar()
+    s9 = tkinter.IntVar()
+    s10 = tkinter.IntVar()
+    s11 = tkinter.IntVar()
+    s12 = tkinter.IntVar()
+    s13 = tkinter.IntVar()
+    s14 = tkinter.IntVar()
+    s15 = tkinter.IntVar()
+    s16 = tkinter.IntVar()
+    s17 = tkinter.IntVar()
+    s18 = tkinter.IntVar()
+    s19 = tkinter.IntVar()
+    s20 = tkinter.IntVar()
+    s21 = tkinter.IntVar()
+    s22 = tkinter.IntVar()
+    s23 = tkinter.IntVar()
+    s24 = tkinter.IntVar()
+    s25 = tkinter.IntVar()
+    s26 = tkinter.IntVar()
+    s27 = tkinter.IntVar()
+    s28 = tkinter.IntVar()
+    s29 = tkinter.IntVar()
+    s30 = tkinter.IntVar()
+    s31 = tkinter.IntVar()
+    s32 = tkinter.IntVar()
+    s33 = tkinter.IntVar()
+    s34 = tkinter.IntVar()
+    s35 = tkinter.IntVar()
+    s36 = tkinter.IntVar()
+    s37 = tkinter.IntVar()
+    s38 = tkinter.IntVar()
+    s39 = tkinter.IntVar()
+    s40 = tkinter.IntVar()
+    s41 = tkinter.IntVar()
+    s42 = tkinter.IntVar()
+    s43 = tkinter.IntVar()
+    s44 = tkinter.IntVar()
+    s45 = tkinter.IntVar()
+    s46 = tkinter.IntVar()
+    s47 = tkinter.IntVar()
+    s48 = tkinter.IntVar()
+    s49 = tkinter.IntVar()
+    s50 = tkinter.IntVar()
+    s51 = tkinter.IntVar()
+    s52 = tkinter.IntVar()
+    s53 = tkinter.IntVar()
+    s54 = tkinter.IntVar()
+    s55 = tkinter.IntVar()
+    s56 = tkinter.IntVar()
+    s57 = tkinter.IntVar()
+    s58 = tkinter.IntVar()
+    s59 = tkinter.IntVar()
+    s60 = tkinter.IntVar()
+    s61 = tkinter.IntVar()
+    s62 = tkinter.IntVar()
+    s63 = tkinter.IntVar()
+    s64 = tkinter.IntVar()
+    s65 = tkinter.IntVar()
+    s66 = tkinter.IntVar()
+    s67 = tkinter.IntVar()
+    s68 = tkinter.IntVar()
+    s69 = tkinter.IntVar()
+    s70 = tkinter.IntVar()
+    s71 = tkinter.IntVar()
+    s72 = tkinter.IntVar()
+    s73 = tkinter.IntVar()
+    s74 = tkinter.IntVar()
+    s75 = tkinter.IntVar()
+    s76 = tkinter.IntVar()
+    s77 = tkinter.IntVar()
+    s78 = tkinter.IntVar()
+    s79 = tkinter.IntVar()
+    s80 = tkinter.IntVar()
+    s81 = tkinter.IntVar()
+    s82 = tkinter.IntVar()
+    s83 = tkinter.IntVar()
+    s84 = tkinter.IntVar()
+    s85 = tkinter.IntVar()
+    s86 = tkinter.IntVar()
+    s87 = tkinter.IntVar()
+    s88 = tkinter.IntVar()
+    s89 = tkinter.IntVar()
+    s90 = tkinter.IntVar()
+    s91 = tkinter.IntVar()
+    s92 = tkinter.IntVar()
+    s93 = tkinter.IntVar()
+    s94 = tkinter.IntVar()
+    s95 = tkinter.IntVar()
+    s96 = tkinter.IntVar()
 
     scrsidb_connectione(seat)
 
@@ -667,11 +667,11 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
 
     label_font, label_width = labeltext()
 
-    label_0 = Label(
+    label_0 = tkinter.Label(
         seat, text="SELECT YOUR SEATS", width=label_width, font=label_font
     ).pack()
 
-    reopen_btn1 = Button(
+    reopen_btn1 = tkinter.Button(
         seat,
         text="Back",
         font=("Arial", 9, "bold"),
@@ -687,7 +687,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
 
     reopen_btn1.place(relx=1.0, anchor="ne", x=-10, y=8)
 
-    reopen_btn2 = Button(
+    reopen_btn2 = tkinter.Button(
         seat,
         text="LogOut",
         font=("Arial", 9, "bold"),
@@ -704,7 +704,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
     reopen_btn2.place(relx=0.0, anchor="nw", x=10, y=8)
 
     # Row A#
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -716,7 +716,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=50, y=65)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -728,7 +728,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=80, y=65)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -740,7 +740,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=110, y=65)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -752,7 +752,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=140, y=65)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -764,7 +764,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=170, y=65)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -776,7 +776,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=200, y=65)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -788,7 +788,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=230, y=65)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -800,7 +800,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=260, y=65)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -812,7 +812,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=290, y=65)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -824,7 +824,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=320, y=65)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -836,7 +836,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=350, y=65)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -848,7 +848,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=380, y=65)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -860,7 +860,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=410, y=65)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -872,7 +872,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=440, y=65)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -884,7 +884,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=470, y=65)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -898,7 +898,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
     ).place(x=500, y=65)
 
     # Row B#
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -910,7 +910,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=50, y=95)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -922,7 +922,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=80, y=95)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -934,7 +934,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=110, y=95)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -946,7 +946,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=140, y=95)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -958,7 +958,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=170, y=95)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -970,7 +970,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=200, y=95)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -982,7 +982,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=230, y=95)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -994,7 +994,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=260, y=95)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1006,7 +1006,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=290, y=95)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1018,7 +1018,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=320, y=95)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1030,7 +1030,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=350, y=95)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1042,7 +1042,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=380, y=95)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1054,7 +1054,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=410, y=95)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1066,7 +1066,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=440, y=95)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1078,7 +1078,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=470, y=95)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1092,7 +1092,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
     ).place(x=500, y=95)
 
     # Row C#
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1104,7 +1104,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=50, y=125)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1116,7 +1116,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=80, y=125)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1128,7 +1128,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=110, y=125)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1140,7 +1140,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=140, y=125)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1152,7 +1152,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=170, y=125)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1164,7 +1164,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=200, y=125)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1176,7 +1176,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=230, y=125)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1188,7 +1188,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=260, y=125)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1200,7 +1200,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=290, y=125)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1212,7 +1212,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=320, y=125)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1224,7 +1224,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=350, y=125)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1236,7 +1236,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=380, y=125)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1248,7 +1248,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=410, y=125)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1260,7 +1260,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=440, y=125)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1272,7 +1272,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=470, y=125)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1286,7 +1286,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
     ).place(x=500, y=125)
 
     # Row D#
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1298,7 +1298,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=50, y=155)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1310,7 +1310,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=80, y=155)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1322,7 +1322,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=110, y=155)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1334,7 +1334,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=140, y=155)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1346,7 +1346,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=170, y=155)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1358,7 +1358,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=200, y=155)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1370,7 +1370,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=230, y=155)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1382,7 +1382,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=260, y=155)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1394,7 +1394,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=290, y=155)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1406,7 +1406,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=320, y=155)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1418,7 +1418,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=350, y=155)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1430,7 +1430,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=380, y=155)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1442,7 +1442,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=410, y=155)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1454,7 +1454,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=440, y=155)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1466,7 +1466,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=470, y=155)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1480,7 +1480,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
     ).place(x=500, y=155)
 
     # Row E#
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1492,7 +1492,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=50, y=185)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1504,7 +1504,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=80, y=185)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1516,7 +1516,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=110, y=185)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1528,7 +1528,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=140, y=185)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1540,7 +1540,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=170, y=185)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1552,7 +1552,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=200, y=185)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1564,7 +1564,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=230, y=185)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1576,7 +1576,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=260, y=185)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1588,7 +1588,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=290, y=185)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1600,7 +1600,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=320, y=185)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1612,7 +1612,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=350, y=185)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1624,7 +1624,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=380, y=185)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1636,7 +1636,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=410, y=185)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1648,7 +1648,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=440, y=185)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1660,7 +1660,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=470, y=185)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1674,7 +1674,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
     ).place(x=500, y=185)
 
     # Row F#
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1686,7 +1686,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=50, y=215)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1698,7 +1698,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=80, y=215)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1710,7 +1710,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=110, y=215)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1722,7 +1722,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=140, y=215)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1734,7 +1734,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=170, y=215)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1746,7 +1746,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=200, y=215)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1758,7 +1758,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=230, y=215)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1770,7 +1770,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=260, y=215)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1782,7 +1782,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=290, y=215)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1794,7 +1794,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=320, y=215)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1806,7 +1806,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=350, y=215)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1818,7 +1818,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=380, y=215)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1830,7 +1830,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=410, y=215)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1842,7 +1842,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=440, y=215)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1854,7 +1854,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activebackground="darkviolet",
         activeforeground="black",
     ).place(x=470, y=215)
-    Checkbutton(
+    tkinter.Checkbutton(
         seat,
         text="",
         onvalue=1,
@@ -1867,7 +1867,7 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
         activeforeground="black",
     ).place(x=500, y=215)
 
-    Label(
+    tkinter.Label(
         seat, text="Screen", bg="black", fg="darkviolet", font=("Gill Sans", 9, "bold")
     ).place(x=255, y=265)
     canvas = Canvas(seat, width=200, height=10, bg="lightcyan")
@@ -1875,67 +1875,67 @@ def seat_selection(city: Toplevel, movie_name_fetch: str) -> None:
     rect_width = 350
     rect_height = 100
     # seat selection #
-    Button(
+    tkinter.Button(
         seat, text="Confirm Booking", **button_style2(), command=seat_confirmation
-    ).pack(side=BOTTOM)
+    ).pack(side=tkinter.BOTTOM)
 
     font_new = ("Gill Sans", 12, "bold")
 
-    Label(seat, text="A", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="A", bg="black", fg="darkviolet",
      font=font_new).place(x=10, y=70)
-    Label(seat, text="B", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="B", bg="black", fg="darkviolet",
      font=font_new).place(x=10, y=100)
-    Label(seat, text="C", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="C", bg="black", fg="darkviolet",
      font=font_new).place(x=10, y=130)
-    Label(seat, text="D", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="D", bg="black", fg="darkviolet",
      font=font_new).place(x=10, y=160)
-    Label(seat, text="E", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="E", bg="black", fg="darkviolet",
      font=font_new).place(x=10, y=190)
-    Label(seat, text="F", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="F", bg="black", fg="darkviolet",
      font=font_new).place(x=10, y=220)
 
-    Label(seat, text="1", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="1", bg="black", fg="darkviolet",
      font=font_new).place(x=52, y=40)
-    Label(seat, text="2", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="2", bg="black", fg="darkviolet",
      font=font_new).place(x=82, y=40)
-    Label(seat, text="3", bg="black", fg="darkviolet", font=font_new).place(x=112, y=40)
-    Label(seat, text="4", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="3", bg="black", fg="darkviolet", font=font_new).place(x=112, y=40)
+    tkinter.Label(seat, text="4", bg="black", fg="darkviolet",
      font=font_new).place(x=142, y=40)
-    Label(seat, text="5", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="5", bg="black", fg="darkviolet",
      font=font_new).place(x=172, y=40)
-    Label(seat, text="6", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="6", bg="black", fg="darkviolet",
      font=font_new).place(x=202, y=40)
-    Label(seat, text="7", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="7", bg="black", fg="darkviolet",
      font=font_new).place(x=232, y=40)
-    Label(seat, text="8", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="8", bg="black", fg="darkviolet",
      font=font_new).place(x=262, y=40)
-    Label(seat, text="9", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="9", bg="black", fg="darkviolet",
      font=font_new).place(x=292, y=40)
-    Label(seat, text="10", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="10", bg="black", fg="darkviolet",
      font=font_new).place(
         x=320, y=40
     )
-    Label(seat, text="11", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="11", bg="black", fg="darkviolet",
      font=font_new).place(
         x=350, y=40
     )
-    Label(seat, text="12", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="12", bg="black", fg="darkviolet",
      font=font_new).place(
         x=380, y=40
     )
-    Label(seat, text="13", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="13", bg="black", fg="darkviolet",
      font=font_new).place(
         x=410, y=40
     )
-    Label(seat, text="14", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="14", bg="black", fg="darkviolet",
      font=font_new).place(
         x=440, y=40
     )
-    Label(seat, text="15", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="15", bg="black", fg="darkviolet",
      font=font_new).place(
         x=470, y=40
     )
-    Label(seat, text="16", bg="black", fg="darkviolet",
+    tkinter.Label(seat, text="16", bg="black", fg="darkviolet",
      font=font_new).place(
         x=500, y=40
     )
@@ -2386,7 +2386,7 @@ def updating_values(seat: Tk) -> None:
         db_connection.close()
 
 
-def booking_successfully(seat: Tk) -> None:
+def booking_successfully(seat: tkinter.Tk) -> None:
     """
     Display a success message for booked tickets.
 
@@ -2395,7 +2395,7 @@ def booking_successfully(seat: Tk) -> None:
     """
     global booked, seat_name, Amount
 
-    booked = Toplevel(seat)
+    booked = tkinter.Toplevel(seat)
     if "seat" in globals():
         seat.withdraw()
 
@@ -2405,7 +2405,7 @@ def booking_successfully(seat: Tk) -> None:
 
     label_font, label_width = labeltext()
 
-    Label(
+    tkinter.Label(
         booked,
         text="Tickets Booked Successfully",
         bg="pink",
@@ -2415,7 +2415,7 @@ def booking_successfully(seat: Tk) -> None:
         width=label_width,
     ).pack()
 
-    reopen_btn3 = Button(
+    reopen_btn3 = tkinter.Button(
         booked,
         text="Back",
         font=("Arial", 9, "bold"),
@@ -2430,7 +2430,7 @@ def booking_successfully(seat: Tk) -> None:
     )
     reopen_btn3.place(relx=1.0, anchor="ne", x=-10, y=8)
 
-    reopen_btn4 = Button(
+    reopen_btn4 = tkinter.Button(
         booked,
         text="LogOut",
         font=("Arial", 9, "bold"),
@@ -2445,7 +2445,7 @@ def booking_successfully(seat: Tk) -> None:
     )
     reopen_btn4.place(relx=0.0, anchor="nw", x=10, y=8)
 
-    Label(
+    tkinter.Label(
         booked,
         text="Your Tickets\n~~~~~~~~~~~~~~",
         bg="black",
@@ -2455,7 +2455,7 @@ def booking_successfully(seat: Tk) -> None:
         width=label_width,
     ).pack()
 
-    seat_label = Label(
+    seat_label = tkinter.Label(
         booked,
         text="Your Seats: " + seat_name,
         bg="yellow",
@@ -2465,7 +2465,7 @@ def booking_successfully(seat: Tk) -> None:
     )
     seat_label.pack()
 
-    cost_label = Label(
+    cost_label = tkinter.Label(
         booked,
         text="Total Cost: " + str(Amount),
         bg="yellow",
@@ -2511,7 +2511,7 @@ def print_ans(lbl_text, menubutton, label, city) -> None:
     label.config(bg="orangered")
 
     global changecity
-    changecity = StringVar()
+    changecity = tkinter.StringVar()
     changecity.set("Change\nYou're City")
 
     menubutton.config(
@@ -2536,7 +2536,7 @@ def print_ans(lbl_text, menubutton, label, city) -> None:
 def main_account_screen() -> None:
     """Initialidb_connectione and display the main account screen."""
     global main_screen
-    main_screen = Tk()
+    main_screen = tkinter.Tk()
 
     scrsidb_connectione(main_screen)
     main_screen.configure(bg="black")
@@ -2544,7 +2544,7 @@ def main_account_screen() -> None:
     label_font, label_width = labeltext()
 
     main_screen.title("Film Buff")
-    Label(
+    tkinter.Label(
         main_screen,
         text="Film Buff",
         bg="yellow",
@@ -2553,12 +2553,12 @@ def main_account_screen() -> None:
         font=label_font,
         width=label_width,
     ).pack()
-    Label(main_screen, text="", bg="black").pack()
+    tkinter.Label(main_screen, text="", bg="black").pack()
 
-    btn = Button(text="New User", command=reg, **button_style())
-    btn.place(relx=0.5, rely=0.5, anchor=CENTER)
+    btn = tkinter.Button(text="New User", command=reg, **button_style())
+    btn.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
 
-    btn1 = Button(text="Login", command=login, **button_style())
+    btn1 = tkinter.Button(text="Login", command=login, **button_style())
     btn1.place(relx=0.5, rely=0.6, anchor=N)
 
     main_screen.mainloop()

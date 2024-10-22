@@ -1,10 +1,10 @@
-import tkinter 
+import tkinter
+import tkinter.messagebox as tm
 
 import mysql.connector
 
-import tkinter.messagebox as tm
 
-from tkinter import ttk
+
 
 # First Create the Database after run this program#
 """Create Database name as logindetails"""
@@ -20,7 +20,7 @@ from tkinter import ttk
 """
 
 
-def scrsidb_connectione(x: Tk) -> None:
+def scrsidb_connectione(x: tkinter.Tk) -> None:
     """Centers the window on the screen and sets its sidb_connectione."""
     width = x.winfo_screenwidth()
     height = x.winfo_screenheight()

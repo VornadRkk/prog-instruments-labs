@@ -341,6 +341,7 @@ def create_new_user(full_name, balance, gender, city, phone_number):
     """
     Creates a new user with the given information
     """
+    logging.info("Attempting to create a new user: %s", full_name)
     users = get_data()
     date = datetime.today().strftime('%Y-%m-%d')
     account_number = generate_account_number()
@@ -353,6 +354,8 @@ def create_new_user(full_name, balance, gender, city, phone_number):
         "phone_number": phone_number
     }
     set_data(users)
+    logging.info("User created: %s, Account Number: %s, Balance: %.2f",
+                 full_name, account_number, balance)
     display_account_information_by_given_account_number(account_number)
 
 
@@ -363,13 +366,16 @@ def search_account(field, query):
     """
     Searches the "query" from the user data in the "field" fields
     """
+    logging.info("Searching for users by field '%s' with query '%s'", field, query)
     users = get_users_as_list()
     users = heap_sort(users, field)
     index = text_binary_search(users, field, query)
     if index == -1:
+        logging.warning("No users found for query '%s'", query)
         print("──── Error ──────────────────────────────────")
         print("Found no one as", query)
     else:
+        logging.info("User found at index %d for query '%s'", index, query)
         user = users.index(index)
         display_user_object(user, user["account_number"])
 
@@ -383,15 +389,15 @@ def merge_accounts(account_numbers_to_merge):
     Checks that all the information is the same expect for the balance. If any information is different,
     the user gets an error message.
     """
+    logging.info("Merging accounts: %s", account_numbers_to_merge)
     users = get_data()
     first_account_number = account_numbers_to_merge[0]
     first_user_object = users[first_account_number]
     full_name = first_user_object["full_name"]
     account_creation_date = first_user_object["account_creation_date"]
-    gender =  first_user_object["gender"]
+    gender = first_user_object["gender"]
     city = first_user_object["city"]
     phone_number = first_user_object["phone_number"]
-
     merge = True
     total_balance = 0
     for i in range(len(account_numbers_to_merge)):
@@ -411,16 +417,18 @@ def merge_accounts(account_numbers_to_merge):
         if users[account_numbers_to_merge[i]]["phone_number"] != phone_number:
             merge = False
             break
-
     if merge:
         for i in range(len(account_numbers_to_merge)):
             if i != 0:
                 delete_account(account_numbers_to_merge[i])
         users[first_account_number]["balance"] = str(total_balance)
         set_data(users)
+        logging.info("Accounts successfully merged into account: %s with total balance: %.2f",
+                     first_account_number, total_balance)
         print("Accounts successfully merged under account number " + first_account_number)
         display_user_object(first_user_object, first_account_number)
     else:
+        logging.error("Merge failed: account information mismatch")
         print("──── Error ──────────────────────────────────")
         print("Could not merge accounts: Account information does not match for all accounts.")
 
@@ -432,12 +440,15 @@ def delete_account(account_number):
     """
     Deletes an account if exists, otherwise displays an error
     """
+    logging.info("Attempting to delete account: %s", account_number)
     users = get_data()
     if account_number not in users:
+        logging.error("Attempt to delete non-existent account: %s", account_number)
         print("Did not found the account with number: " + account_number)
         return
     del users[account_number]
     set_data(users)
+    logging.info("Deleted account: %s", account_number)
     print("Account number", account_number, "removed.")
 
 
@@ -493,6 +504,7 @@ def display_all_accounts_sorted_by(field):
     """
     Displays all the users one after the other, sorted by a given field
     """
+    logging.info("Displaying all accounts sorted by field: %s", field)
     users = get_users_as_list()
     users = heap_sort(users, field)
     clean_terminal_screen()

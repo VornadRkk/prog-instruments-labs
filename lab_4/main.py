@@ -1,13 +1,24 @@
 
 
 # ─── IMPORTS ────────────────────────────────────────────────────────────────────
-
+import logging
 import math
 import json
 import os
 import random
 from datetime import datetime
 from os.path import exists
+
+
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(),
+        logging.FileHandler("bank.log", mode='a', encoding='utf-8')
+    ]
+)
 
 
 # ─── CONSTANTS ──────────────────────────────────────────────────────────────────
@@ -20,41 +31,49 @@ FILE_PATH = "bank.json"
 
 
 def get_data():
-    """
-    Reads the bank information from the data file.
-    """
-    # assume none existent file as empty file
     if not exists(FILE_PATH):
+        logging.info("File %s does not exist. Returning empty data.", FILE_PATH)
         return {}
-    f = open(FILE_PATH, "r")
-    data = f.read()
-    # convert string json to python object
-    return json.loads(data)
+    try:
+        with open(FILE_PATH, "r") as f:
+            data = json.load(f)
+            logging.debug("Data loaded successfully from %s", FILE_PATH)
+            return data
+    except Exception as e:
+        logging.error("Error reading the file %s: %s", FILE_PATH, e)
+        return {}
 
 
 def set_data(data):
-    """
-    Writes the bank information into the data file
-    """
-    f = open(FILE_PATH, "w")
-    json_data = json.dumps(data)
-    f.write(json_data)
+    try:
+        with open(FILE_PATH, "w") as f:
+            json.dump(data, f, indent=4)
+        logging.debug("Data written successfully to %s", FILE_PATH)
+    except Exception as e:
+        logging.error("Error writing to the file %s: %s", FILE_PATH, e)
 
 
 def get_users_as_list():
     """
-    This functions loads the user data and converts it
+    This function loads the user data and converts it
     from a dictionary to a list and then appends the
-    account_number as a key from outside into the the
+    account_number as a key from outside into the
     data object.
     """
+    logging.info("get_users_as_list: Function called.")
     result = []
     users = get_data()
+    logging.info(f"get_users_as_list: Retrieved {len(users)} users from storage.")
+
     for user_account_number in users:
         user_data = users[user_account_number]
         user_data["account_number"] = user_account_number
         result.append(user_data)
+        logging.debug(f"get_users_as_list: Processed user with account number {user_account_number}.")
+
     results_as_ll = list_to_linked_list(result)
+    logging.info("get_users_as_list: Converted user data to a linked list.")
+
     return results_as_ll
 
 
@@ -118,10 +137,12 @@ def list_to_linked_list(arr):
     """
     Converts a Python List to a LinkedList
     """
+    logging.debug("Converting Python list of size %d to LinkedList.", len(arr))
     n = None
     for i in range(len(arr) - 1, -1, -1):
         node = LinkedList(arr[i], n)
         n = node
+    logging.debug("LinkedList successfully created.")
     return n
 
 
@@ -136,6 +157,7 @@ def heap_sort(input_list, field):
     functions. This makes possible to sort users based on different
     aspects, like based on full name or phone number
     """
+    logging.debug("Starting heap sort on field '%s' for list of size %d.", field, input_list.size())
     range_start = int((input_list.size()-2)/2)
     for start in range(range_start, -1, -1):
         sift_down(input_list, field, start, input_list.size()-1)
@@ -144,6 +166,7 @@ def heap_sort(input_list, field):
     for end_index in range(range_start, 0, -1):
         swap(input_list, end_index, 0)
         sift_down(input_list, field, 0, end_index - 1)
+    logging.debug("Heap sort completed on field '%s'.", field)
     return input_list
 
 
@@ -155,6 +178,7 @@ def swap(input_list, a, b):
     b_value = input_list.index(b)
     input_list.set_index(a, b_value)
     input_list.set_index(b, a_value)
+    logging.debug("Swapped elements at index %d and %d.", a, b)
 
 
 def sift_down(input_list, field, start_index, end_index):
@@ -188,6 +212,7 @@ def text_binary_search(input_list, field, query):
     (2) Make the text lowercase and trims the text in the fields
         so for example "foo bar" can match "FooBar"
     """
+    logging.debug("Performing binary search for query '%s' on field '%s'.", query, field)
     low = 0
     high = input_list.size() - 1
     query = make_text_searchable(query)
@@ -198,7 +223,9 @@ def text_binary_search(input_list, field, query):
         elif make_text_searchable(input_list.index(mid)[field]) < query:
             low = mid + 1
         else:
+            logging.info("Binary search found match at index %d.", mid)
             return mid
+    logging.info("Binary search query '%s' not found.", query)
     return -1
 
 
@@ -223,7 +250,7 @@ def generate_account_number():
     for _ in range(0, 8):
         random_number = random.randint(1, 9)
         result += str(random_number)
-
+    logging.info("Generated new account number: %s", prefix + result)
     return prefix + result
 
 
@@ -235,27 +262,21 @@ def perform_transaction(sender_number, receiver_number, amount):
     Given two account numbers and a transaction amount, this will move
     the money from the sender account to the recipient account.
     """
+    logging.debug("Initiating transaction of $%s from %s to %s.", amount, sender_number, receiver_number)
     users = get_data()
-
     if sender_number not in users:
-        print("Did not found the account with number: " + sender_number)
+        logging.warning("Transaction failed: Sender account %s not found.", sender_number)
         return
-
     if receiver_number not in users:
-        print("Did not found the account with number: " + receiver_number)
+        logging.warning("Transaction failed: Receiver account %s not found.", receiver_number)
         return
-
     if users[sender_number]["balance"] < amount:
-        print("your account balance is not enough")
+        logging.warning("Transaction failed: Insufficient funds in account %s.", sender_number)
         return
-
     users[sender_number]["balance"] -= amount
     users[receiver_number]["balance"] += amount
-
     set_data(users)
-
-    print("Transferred ", amount, "$ from account",
-          users[sender_number]["full_name"], "to", users[receiver_number]["full_name"])
+    logging.info("Transaction successful: $%s transferred from %s to %s.", amount, sender_number, receiver_number)
 
 
 # ─── update information ──────────────────────────────────────────────────────────
@@ -266,7 +287,14 @@ def update_information(account_number):
     Given an account number, this asks the user what to change and then
     changes the properties of that.
     """
+    logging.info(f"update_information: Function called for account number {account_number}.")
+
     users = get_data()
+    if account_number not in users:
+        logging.error(f"update_information: Account number {account_number} not found.")
+        print("Error: Account not found.")
+        return
+
     print_horizontal_line()
     print("► 1 ∙ Full Name ")
     print_horizontal_line()
@@ -277,23 +305,33 @@ def update_information(account_number):
     print("► 4 ∙ Phone Number ")
     print_horizontal_line()
     command = int(input("What to change? "))
+    logging.info(f"update_information: User chose option {command} to update.")
     print_horizontal_line()
     if command == 1:
         new_name = input("New Full Name: ")
         users[account_number]["full_name"] = new_name
-    if command == 2:
+        logging.info(f"update_information: Updated full name to '{new_name}' for account number {account_number}.")
+    elif command == 2:
         new_gender = input("New Gender: ")
         users[account_number]["gender"] = new_gender
-    if command == 3:
+        logging.info(f"update_information: Updated gender to '{new_gender}' for account number {account_number}.")
+    elif command == 3:
         new_city = input("New City: ")
         users[account_number]["city"] = new_city
-    if command == 4:
+        logging.info(f"update_information: Updated city to '{new_city}' for account number {account_number}.")
+    elif command == 4:
         new_phone_number = input("New Phone Number: ")
         users[account_number]["phone_number"] = new_phone_number
-
+        logging.info(f"update_information: Updated phone number to '{new_phone_number}' for account number {account_number}.")
+    else:
+        logging.warning(f"update_information: Invalid option {command} selected.")
+        print("Invalid option selected.")
+        return
     set_data(users)
+    logging.info(f"update_information: Data saved successfully for account number {account_number}.")
     clean_terminal_screen()
     display_account_information_by_given_account_number(account_number)
+    logging.info(f"update_information: Displayed updated information for account number {account_number}.")
 
 
 # ─── CREATE A NEW USER ──────────────────────────────────────────────────────────

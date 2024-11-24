@@ -287,11 +287,11 @@ def update_information(account_number):
     Given an account number, this asks the user what to change and then
     changes the properties of that.
     """
-    logging.info(f"update_information: Function called for account number {account_number}.")
+    logging.info("update_information: Function called for account number %s.", account_number)
 
     users = get_data()
     if account_number not in users:
-        logging.error(f"update_information: Account number {account_number} not found.")
+        logging.error("update_information: Account number %s not found.", account_number)
         print("Error: Account not found.")
         return
 
@@ -304,34 +304,41 @@ def update_information(account_number):
     print_horizontal_line()
     print("► 4 ∙ Phone Number ")
     print_horizontal_line()
-    command = int(input("What to change? "))
-    logging.info(f"update_information: User chose option {command} to update.")
+
+    try:
+        command = int(input("What to change? "))
+        logging.info("update_information: User chose option %s to update.", command)
+    except ValueError:
+        logging.warning("update_information: Invalid input for command.")
+        print("Invalid option selected.")
+        return
     print_horizontal_line()
     if command == 1:
         new_name = input("New Full Name: ")
         users[account_number]["full_name"] = new_name
-        logging.info(f"update_information: Updated full name to '{new_name}' for account number {account_number}.")
+        logging.info("update_information: Updated full name to '%s' for account number %s.", new_name, account_number)
     elif command == 2:
         new_gender = input("New Gender: ")
         users[account_number]["gender"] = new_gender
-        logging.info(f"update_information: Updated gender to '{new_gender}' for account number {account_number}.")
+        logging.info("update_information: Updated gender to '%s' for account number %s.", new_gender, account_number)
     elif command == 3:
         new_city = input("New City: ")
         users[account_number]["city"] = new_city
-        logging.info(f"update_information: Updated city to '{new_city}' for account number {account_number}.")
+        logging.info("update_information: Updated city to '%s' for account number %s.", new_city, account_number)
     elif command == 4:
         new_phone_number = input("New Phone Number: ")
         users[account_number]["phone_number"] = new_phone_number
-        logging.info(f"update_information: Updated phone number to '{new_phone_number}' for account number {account_number}.")
+        logging.info("update_information: Updated phone number to '%s' for account number %s.", new_phone_number, account_number)
     else:
-        logging.warning(f"update_information: Invalid option {command} selected.")
+        logging.warning("update_information: Invalid option %s selected.", command)
         print("Invalid option selected.")
         return
     set_data(users)
-    logging.info(f"update_information: Data saved successfully for account number {account_number}.")
+    logging.info("update_information: Data saved successfully for account number %s.", account_number)
     clean_terminal_screen()
     display_account_information_by_given_account_number(account_number)
-    logging.info(f"update_information: Displayed updated information for account number {account_number}.")
+    logging.info("update_information: Displayed updated information for account number %s.", account_number)
+
 
 
 # ─── CREATE A NEW USER ──────────────────────────────────────────────────────────
@@ -342,7 +349,7 @@ def create_new_user(full_name, balance, gender, city, phone_number):
     Creates a new user with the given information
     """
     logging.info("Attempting to create a new user: %s", full_name)
-    users = get_data()
+    users = get_data()  
     date = datetime.today().strftime('%Y-%m-%d')
     account_number = generate_account_number()
     users[account_number] = {
